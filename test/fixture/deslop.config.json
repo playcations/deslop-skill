@@ -1,0 +1,5 @@
+{
+  "catalog": "src/i18n/en.ts",
+  "properNouns": ["Order Book"],
+  "exemptFromLength": ["\\.(answer|example|sample)\\d*$"]
+}

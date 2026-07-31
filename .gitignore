@@ -1,0 +1,4 @@
+node_modules/
+
+# Yours, not the repo's. The test fixture keeps its own, and that one is tracked.
+/deslop.config.json

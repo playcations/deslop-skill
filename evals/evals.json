@@ -1,0 +1,81 @@
+{
+  "skill_name": "deslop",
+  "note": "Assertions score the copy, not the ritual. An earlier set asked whether four rewrite lenses convened and whether clustering preceded scoring, and hit 100% while the catalog still read like a machine wrote it. The panel is retired; see code-check.py --baseline for the numbers that retired it.",
+  "howToUse": "These are shapes, not a suite you can run as-is. Each prompt needs a real string from your catalog and a real defect in your code. Swap the bracketed parts, then add the project-specific assertions that make the eval worth running — the ones naming a contradiction you already know is there are the ones that catch a regression. Three scenarios is the working minimum.",
+  "evals": [
+    {
+      "id": 0,
+      "name": "vague-error-repeated",
+      "prompt": "The message '[a vague error repeated across your catalog]' shows up all over the place and tells the user nothing. Can you look at where a few of them actually get used and give me better wording? Just show me proposed replacements, don't edit anything yet.",
+      "expected_output": "Proposals grounded in each call site rather than one generic replacement, resolved in a single cut pass, with the reduction quantified.",
+      "assertions": [
+        "Grounds the proposals in real call sites: names at least three distinct files or route handlers where the message is used",
+        "Proposes call-site-specific wording rather than one generic replacement reused everywhere",
+        "Does not invent a cause the handler cannot actually know",
+        "No proposed replacement ends on a reassurance tail such as 'Please try again' or 'Try again later'",
+        "Failure openings are consistent with the house standard in binding.md, or a departure is argued explicitly",
+        "Resolves in a single cut pass, and names any message where two answers are defensible rather than picking silently",
+        "Quantifies the change — word counts, or the output of scripts/deslop-measure.mjs",
+        "Does not modify the catalog or any source file",
+        "Does not spawn a panel of rewriters — one cut pass against cuts.md is the method"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "namespace-sweep",
+      "prompt": "the [admin] screens in this app read like a robot wrote them. go through the [admin] copy and tell me what you'd change and why. don't apply anything yet, I want to see the list first.",
+      "expected_output": "Sweep-scoped review: scan run, contradictions reported separately and first, net word reduction, pinned tests named.",
+      "assertions": [
+        "Treats this as a sweep: runs the scan or an equivalent inventory rather than only reading the strings the user could see",
+        "Reports at least one place where the copy contradicts what the code does, separately from wording findings",
+        "Catches [a specific false claim you have planted or already know about in this namespace]",
+        "Verification completes before any rewriting, so no proposal preserves a claim the code disproves",
+        "Uses more than one unpartitioned verification pass for the sweep rather than splitting the code by topic",
+        "Produces the six verify lists, including certified and unverifiable, rather than only the failures",
+        "The batch is net shorter: total words across the proposals is below the total across the originals",
+        "Every rewrite that is longer than its original adds a fact the original lacked, and says which",
+        "Explicitly leaves some messages alone as already good",
+        "Names which tests assert on the strings it proposes to change",
+        "Every before/after pair preserves the {param} placeholders and rich-text tags of the original",
+        "Does not propose a wording improvement for a string that is not copy (SQL, class list, credential, exception class name)",
+        "Does not modify any source file",
+        "Does not spawn a panel of rewriters — one cut pass against cuts.md is the method"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "two-strings-pointed",
+      "prompt": "on the [X] screen the empty state heading just says '[a content-free heading]' and next to each row it says '[a status]' right beside a button that says '[the adjacent button label]'. what should those say instead?",
+      "expected_output": "Pointed request: no scan, adjacent controls read, heading names the state, status does not restate the button.",
+      "assertions": [
+        "Treats this as pointed: does not run a full namespace scan or return an inventory of findings the user did not ask about",
+        "The proposed heading names the state the screen is empty of, rather than another content-free phrase",
+        "The proposed status does not restate the adjacent button",
+        "Reads the component that renders these strings and cites it by path",
+        "Resolves in a single cut pass",
+        "Neither proposal is longer than the string it replaces",
+        "Does not modify any source file",
+        "Does not spawn a panel of rewriters — one cut pass against cuts.md is the method"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "paragraph-with-neighbours",
+      "prompt": "can you take a look at the \"[heading]\" paragraph on the [X] screen? it reads like AI wrote it. don't change anything yet, just show me what you'd do.",
+      "expected_output": "Pointed request on one paragraph: neighbours read and reported, claims verified against the code, substantial deletion, single committed recommendation.",
+      "assertions": [
+        "Locates the correct catalog key rather than guessing at the text",
+        "Reads what renders around the paragraph and reports any near-duplicate sibling explanation on the same screen",
+        "Correctly resolves [a pair of terms on this screen that look like drift and are not] rather than unifying them",
+        "Verifies the paragraph's claims against the code rather than only editing prose",
+        "Does not assert an affordance it has not confirmed renders in this state",
+        "The recommendation is materially shorter than the original paragraph, not a reorganisation of the same length",
+        "Cuts at least one sentence entirely rather than rewording every sentence in place",
+        "Commits to a single recommendation with reasoning rather than handing back an unranked list",
+        "Does not pad a rewrite with a sentence that carries no fact the original carried",
+        "Does not modify any source file",
+        "Does not spawn a panel of rewriters — one cut pass against cuts.md is the method"
+      ]
+    }
+  ]
+}
